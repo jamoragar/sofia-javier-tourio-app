@@ -12,7 +12,7 @@ export default async function handler(request, response) {
   await dbConnect();
 
   if (request.method === "GET") {
-    const place = Places.find((place) => place._id.$oid === id);
+    const place = await Places.findById(id);
     const comment = place?.comments;
     const allCommentIds = comment?.map((comment) => comment.$oid) || [];
     const comments = db_comments.filter((comment) =>
@@ -24,6 +24,13 @@ export default async function handler(request, response) {
     }
 
     return response.status(200).json({ place: place, comments: comments });
+  }
+
+  if (request.method === "PUT") {
+    await Places.findByIdAndUpdate(id, {
+      $set: request.body,
+    });
+    return response.status(200).json({ status: "place sucsessfully updated" });
   } else {
     return response.status(405).json({ message: "Method not allowed" });
   }
