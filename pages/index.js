@@ -29,7 +29,6 @@ export default function Home() {
     <>
       <List role="list">
         {data.map((place) => {
-          console.log(place);
           return (
             <ListItem key={place._id}>
               <Card

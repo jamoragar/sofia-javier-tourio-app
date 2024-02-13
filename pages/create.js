@@ -12,7 +12,6 @@ export default function CreatePlacePage() {
   const router = useRouter();
 
   async function addPlace(place) {
-    console.log(place);
     const response = await fetch(`/api/places`, {
       method: "POST",
       headers: {
