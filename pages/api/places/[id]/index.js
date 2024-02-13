@@ -30,7 +30,14 @@ export default async function handler(request, response) {
     await Places.findByIdAndUpdate(id, {
       $set: request.body,
     });
+
     return response.status(200).json({ status: "place sucsessfully updated" });
+  }
+  if (request.method === "DELETE") {
+    const places = await Places.findByIdAndDelete(id);
+    response.status(260).json("Place deleted");
+
+    return response.status(200).json(places);
   } else {
     return response.status(405).json({ message: "Method not allowed" });
   }

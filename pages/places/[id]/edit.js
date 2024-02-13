@@ -11,7 +11,6 @@ export default function EditPage() {
   const { data: place, isLoading, error, mutate } = useSWR(`/api/places/${id}`);
 
   async function editPlace(place) {
-    console.log("Place edited (but not really...)");
     const response = await fetch(`/api/places/${id}`, {
       method: "PUT",
       headers: {
@@ -28,7 +27,8 @@ export default function EditPage() {
     }
   }
 
-  if (!isReady || isLoading || error) return <h2>Loading...</h2>;
+  if (!isReady || isLoading) return <h2>Loading...</h2>;
+  if (error) return <h2>Error! 🔥</h2>;
 
   return (
     <>

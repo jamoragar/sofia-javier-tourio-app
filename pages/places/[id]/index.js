@@ -39,15 +39,27 @@ export default function DetailsPage() {
     error,
   } = useSWR(`/api/places/${id}`);
 
-  if (!isReady || isLoading || error) return <h2>Loading...</h2>;
+  if (!isReady || isLoading) return <h2>Loading...</h2>;
+  if (error) return <h2>Error! 🔥</h2>;
 
-  function deletePlace() {
-    console.log("deleted?");
+  async function deletePlace() {
+    if (confirm(`Are you sure that you want to delete this place?`) == true) {
+      const response = await fetch(`/api/places/${id}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        await response.json();
+        router.push("/");
+      } else {
+        alert(`There was a Error ${response.status}`);
+      }
+    }
   }
 
   return (
     <>
-      <Link href={'/'} passHref legacyBehavior>
+      <Link href={"/"} passHref legacyBehavior>
         <StyledLink justifySelf="start">back</StyledLink>
       </Link>
       <ImageContainer>
