@@ -22,8 +22,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "dynamic-media-cdn.tripadvisor.com",
-        port: "",
+        hostname: "**",
       },
     ],
     domains: ["dynamic-media-cdn.tripadvisor.com"],
