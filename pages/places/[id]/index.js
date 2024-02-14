@@ -50,7 +50,6 @@ export default function DetailsPage() {
       });
 
       if (response.ok) {
-        await response.json();
         router.push("/");
       } else {
         alert(`There was a Error ${response.status}`);

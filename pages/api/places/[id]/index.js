@@ -44,10 +44,17 @@ export default async function handler(request, response) {
     return response.status(200).json({ status: "place sucsessfully updated" });
   }
   if (request.method === "DELETE") {
-    const places = await Places.findByIdAndDelete(id);
-    response.status(260).json("Place deleted");
-
-    return response.status(200).json(places);
+    try {
+      const places = await Places.findByIdAndDelete(id);
+      if (!places) {
+        return response.status(404).json({ message: "Document not found" });
+      }
+      return response
+        .status(200)
+        .json({ message: "Place deleted", data: places });
+    } catch (error) {
+      return response.status(405).json({ message: error.message });
+    }
   }
 
   if (request.method === "POST") {
