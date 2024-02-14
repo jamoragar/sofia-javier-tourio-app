@@ -3,14 +3,16 @@ import styled from "styled-components";
 import { StyledImage } from "./StyledImage.js";
 
 const Article = styled.article`
-  border: 5px solid black;
+  // border: 5px solid black;
   border-radius: 0.8rem;
   padding: 0.5rem;
+  background-color: #f5f5f5;
+  box-shadow: 3px 3px 5px #e8e8e8;
 `;
 
 const ImageContainer = styled.div`
   position: relative;
-  height: 10rem;
+  height: 20rem;
 `;
 
 const Figure = styled.figure`
@@ -42,12 +44,26 @@ const ScreenReaderOnly = styled.span`
   border-width: 0;
 `;
 
+const StyledImageWithBorderRadius = styled(StyledImage)`
+  border-radius: 0.5rem;
+`;
+
+const Name = styled.h2`
+  color: black;
+  font-size: 20px;
+`;
+
+const Location = styled.p`
+  color: black;
+  font-size: 15px;
+`;
+
 export default function Card({ name, image, location, id }) {
   return (
     <Article>
       <Figure>
         <ImageContainer>
-          <StyledImage
+          <StyledImageWithBorderRadius
             src={image}
             priority={true}
             fill
@@ -57,9 +73,13 @@ export default function Card({ name, image, location, id }) {
             alt=""
           />
         </ImageContainer>
-        <figcaption>{name}</figcaption>
+        <figcaption>
+          <Name>{name}</Name>
+        </figcaption>
       </Figure>
-      <p>Location: {location}</p>
+      <p>
+        <Location>Location: {location}</Location>
+      </p>
       <Link href={`places/${id}`} passHref legacyBehavior>
         <Anchor>
           <ScreenReaderOnly>More Info</ScreenReaderOnly>
