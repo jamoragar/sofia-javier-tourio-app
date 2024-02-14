@@ -26,6 +26,7 @@ const nextConfig = {
         port: "",
       },
     ],
+    domains: ["dynamic-media-cdn.tripadvisor.com"],
   },
 };
 
