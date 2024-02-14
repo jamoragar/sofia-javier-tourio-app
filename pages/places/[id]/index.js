@@ -69,7 +69,6 @@ export default function DetailsPage() {
     if (response.ok) {
       mutate();
       alert("You comment was added succesfully! 🥳");
-      const { comentId } = await response.json();
     } else {
       alert("There was a Error");
     }

@@ -54,12 +54,15 @@ export default async function handler(request, response) {
     try {
       const newComment = request.body;
       const requestCommentCreate = await Comments.create(newComment);
-      return response
-        .status(200)
-        .json({
-          message: "New comment added!",
-          commentId: requestCommentCreate._id,
-        });
+
+      await Places.updateOne(
+        { _id: id },
+        { $push: { comments: requestCommentCreate._id } }
+      );
+
+      return response.status(200).json({
+        message: "New comment added!",
+      });
     } catch (error) {
       console.error(error);
     }
