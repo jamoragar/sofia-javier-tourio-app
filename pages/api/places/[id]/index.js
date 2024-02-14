@@ -1,5 +1,6 @@
 import dbConnect from "../../../../db/connection";
-import Places from "../.././../../db/schemas/palces.schema";
+import Places from "../../../../db/schemas/palces.schema";
+import Comments from "../../../../db/schemas/comments.schema";
 import { db_comments } from "../../../../lib/db_comments";
 
 export default async function handler(request, response) {
@@ -13,17 +14,28 @@ export default async function handler(request, response) {
 
   if (request.method === "GET") {
     const place = await Places.findById(id);
-    const comment = place?.comments;
-    const allCommentIds = comment?.map((comment) => comment.$oid) || [];
-    const comments = db_comments.filter((comment) =>
-      allCommentIds.includes(comment._id.$oid)
-    );
+    const commentIds = place?.comments;
 
     if (!place) {
       return response.status(404).json({ status: "Not found" });
     }
 
-    return response.status(200).json({ place: place, comments: comments });
+    if (commentIds && commentIds.length > 0) {
+      const comments = (
+        await Promise.all(
+          commentIds.map(async (commentId) => {
+            const fullComment = await Comments.findById(commentId);
+            return fullComment;
+          })
+        )
+      ).filter(Boolean);
+
+      console.log(comments);
+
+      return response.status(200).json({ place: place, comments: comments });
+    } else {
+      return response.status(200).json({ place: place, comments: [] });
+    }
   }
 
   if (request.method === "PUT") {
