@@ -29,7 +29,6 @@ export default function EditPage() {
 
   if (!isReady || isLoading) return <h2>Loading...</h2>;
   if (error) return <h2>Error! 🔥</h2>;
-  console.log(place);
   return (
     <>
       <h2 id="edit-place">Edit Place</h2>
