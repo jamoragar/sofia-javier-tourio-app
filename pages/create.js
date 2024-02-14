@@ -21,6 +21,7 @@ export default function CreatePlacePage() {
     });
 
     if (response.ok) {
+      alert("New Place added succesfully! 🥳");
       router.push("/");
     } else {
       alert("There was an error with the server. Please try again later 🤘🏼");
