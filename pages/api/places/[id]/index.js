@@ -43,12 +43,26 @@ export default async function handler(request, response) {
 
     return response.status(200).json({ status: "place sucsessfully updated" });
   }
+  // DELETE PLACE
   if (request.method === "DELETE") {
     try {
+      // First Delete the comments of the Place
+      await Places.findById(id)
+        .select("comments")
+        .then(async (document) => {
+          const comments = document.comments;
+          if (comments.length > 0) {
+            comments.forEach(async (id) => {
+              await Comments.findByIdAndDelete(id);
+            });
+          }
+        });
+      // Then Delete the Place
       const places = await Places.findByIdAndDelete(id);
       if (!places) {
         return response.status(404).json({ message: "Document not found" });
       }
+
       return response
         .status(200)
         .json({ message: "Place deleted", data: places });
