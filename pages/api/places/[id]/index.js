@@ -30,8 +30,6 @@ export default async function handler(request, response) {
         )
       ).filter(Boolean);
 
-      console.log(comments);
-
       return response.status(200).json({ place: place, comments: comments });
     } else {
       return response.status(200).json({ place: place, comments: [] });
@@ -50,6 +48,21 @@ export default async function handler(request, response) {
     response.status(260).json("Place deleted");
 
     return response.status(200).json(places);
+  }
+
+  if (request.method === "POST") {
+    try {
+      const newComment = request.body;
+      const requestCommentCreate = await Comments.create(newComment);
+      return response
+        .status(200)
+        .json({
+          message: "New comment added!",
+          commentId: requestCommentCreate._id,
+        });
+    } catch (error) {
+      console.error(error);
+    }
   } else {
     return response.status(405).json({ message: "Method not allowed" });
   }

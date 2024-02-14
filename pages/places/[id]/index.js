@@ -37,6 +37,7 @@ export default function DetailsPage() {
     data: { place, comments } = {},
     isLoading,
     error,
+    mutate,
   } = useSWR(`/api/places/${id}`);
 
   if (!isReady || isLoading) return <h2>Loading...</h2>;
@@ -54,6 +55,23 @@ export default function DetailsPage() {
       } else {
         alert(`There was a Error ${response.status}`);
       }
+    }
+  }
+  async function addCommentPlace(comment) {
+    const response = await fetch(`/api/places/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(comment),
+    });
+
+    if (response.ok) {
+      mutate();
+      alert("You comment was added succesfully! 🥳");
+      const { comentId } = await response.json();
+    } else {
+      alert("There was a Error");
     }
   }
 
@@ -88,7 +106,11 @@ export default function DetailsPage() {
           Delete
         </StyledButton>
       </ButtonContainer>
-      <Comments locationName={place.name} comments={comments} />
+      <Comments
+        submitComment={addCommentPlace}
+        locationName={place.name}
+        comments={comments}
+      />
     </>
   );
 }
