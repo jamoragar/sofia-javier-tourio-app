@@ -29,14 +29,18 @@ export default function EditPage() {
 
   if (!isReady || isLoading) return <h2>Loading...</h2>;
   if (error) return <h2>Error! 🔥</h2>;
-
+  console.log(place);
   return (
     <>
       <h2 id="edit-place">Edit Place</h2>
       <Link href={`/places/${id}`} passHref legacyBehavior>
         <StyledLink justifySelf="start">back</StyledLink>
       </Link>
-      <Form onSubmit={editPlace} formName={"edit-place"} defaultData={place} />
+      <Form
+        onSubmit={editPlace}
+        formName={"edit-place"}
+        defaultData={place.place}
+      />
     </>
   );
 }
